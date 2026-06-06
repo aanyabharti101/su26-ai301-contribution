@@ -1,5 +1,5 @@
 # su26-ai301-contribution
-# Contribution [#1]: LinkFileList generation needs to use quoting
+# Contribution #1: LinkFileList generation needs to use quoting
 
 **Contribution Number:** 1  
 **Student:** Aanya Bharti  
