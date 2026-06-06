@@ -4,7 +4,6 @@
 **Contribution Number:** 1 
 **Student:** Aanya Bharti 
 **Issue:** https://github.com/swiftlang/swift-build/issues/13
-**Project Fork Link:** https://github.com/aanyabharti101/swift-build
 **Status:** Phase I Complete
 
 ---
