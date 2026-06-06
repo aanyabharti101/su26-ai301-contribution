@@ -1,24 +1,27 @@
 # su26-ai301-contribution
-# Contribution [#1]: [LinkFileList generation needs to use quoting]
+# Contribution [#1]: LinkFileList generation needs to use quoting
 
-**Contribution Number:** [1 / 2 / 3]  
-**Student:** [Your Name]  
-**Issue:** [GitHub issue link]  
-**Status:** [Phase I / Phase II / Phase III / Phase IV] [In Progress / Complete]
+**Contribution Number:** 1 
+**Student:** Aanya Bharti 
+**Issue:** https://github.com/swiftlang/swift-build/issues/13
+**Project Fork Link:** https://github.com/aanyabharti101/swift-build
+**Status:** Phase I Complete
 
 ---
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
+I chose this issue because I am interested in build systems, developer tooling, and the software infrastructure that developers rely on every day. While many projects focus on application-level features, this issue provided an opportunity to investigate how Swift Build generates linker inputs and how different linkers interpret file lists. I was drawn to the challenge of understanding behavior that occurs deep within the build process and affects cross-platform compatibility.
+
+This issue also aligns well with my learning goals for AI301. I wanted to gain experience navigating a large open-source codebase, reproducing bugs, tracing execution paths, and proposing fixes that maintain existing behavior while addressing edge cases. Through investigating this issue, I learned more about linker behavior, response file formats, and the importance of considering platform-specific differences when developing build tools. I hope to continue strengthening my debugging, code-reading, and open-source collaboration skills while contributing a meaningful improvement to the Swift Build project.
 
 ---
 
 ## Understanding the Issue
 
 ### Problem Description
+This issue involves how Swift Build generates LinkFileList files when paths contain spaces. Apple's ld64 linker reads file list entries differently than many non-Apple linkers, which can cause paths with spaces to be interpreted incorrectly. As a result, builds may fail when projects are located in directories whose names contain spaces. I chose this issue because it combines debugging, build-system internals, and cross-platform compatibility, all areas I want to learn more about through open-source contributions.
 
-[In your own words, what's broken or missing?]
 
 ### Expected Behavior
 
