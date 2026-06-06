@@ -11,9 +11,9 @@
 
 ## Why I Chose This Issue
 
-I chose this issue because I am interested in build systems, developer tooling, and the software infrastructure that developers rely on every day. While many projects focus on application-level features, this issue provided an opportunity to investigate how Swift Build generates linker inputs and how different linkers interpret file lists. I was drawn to the challenge of understanding behavior that occurs deep within the build process and affects cross-platform compatibility.
+I chose this issue because it gave me the chance to explore a part of software development that I had very little experience with before: build systems and linker behavior. Most of the projects I have worked on have focused on writing application code, so I was curious about what happens behind the scenes when software is built and linked. Since I develop primarily on macOS, I was also excited by the opportunity to contribute to a project in the Swift ecosystem and learn more about the tools that support it.
 
-This issue also aligns well with my learning goals for AI301. I wanted to gain experience navigating a large open-source codebase, reproducing bugs, tracing execution paths, and proposing fixes that maintain existing behavior while addressing edge cases. Through investigating this issue, I learned more about linker behavior, response file formats, and the importance of considering platform-specific differences when developing build tools. I hope to continue strengthening my debugging, code-reading, and open-source collaboration skills while contributing a meaningful improvement to the Swift Build project.
+What especially interested me about this issue was that the problem was not an obvious bug in the application itself, but a subtle compatibility issue between different linkers. Investigating it required reading unfamiliar code, reproducing the behavior, and understanding how build tools handle paths containing spaces. Through this contribution, I hope to become more comfortable navigating large open-source codebases, debugging real-world issues, and contributing fixes that improve the developer experience for others.
 
 ---
 
