@@ -3,7 +3,7 @@
 
 **Contribution Number:** 1  
 **Student:** Aanya Bharti  
-**GitHub Username:** aanyabharti101
+**GitHub Username:** aanyabharti101  
 **Issue:** https://github.com/swiftlang/swift-build/issues/13  
 **Project Fork Link:** https://github.com/aanyabharti101/swift-build  
 **Status:** Phase I Complete  
