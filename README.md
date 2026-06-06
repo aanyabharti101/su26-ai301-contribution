@@ -1,16 +1,12 @@
 # su26-ai301-contribution
 # Contribution [#1]: LinkFileList generation needs to use quoting
 
-**Contribution Number:** 1
-**Student:** Aanya Bharti
-**Issue:** https://github.com/swiftlang/swift-build/issues/13
-**Project Fork Link:** https://github.com/aanyabharti101/swift-build
-**Status:** Phase I Complete
+**Contribution Number:** 1  
+**Student:** Aanya Bharti  
+**Issue:** https://github.com/swiftlang/swift-build/issues/13  
+**Project Fork Link:** https://github.com/aanyabharti101/swift-build  
+**Status:** Phase I Complete  
 
-**Contribution Number:** 1 
-**Student:** Aanya Bharti 
-**Issue:** https://github.com/swiftlang/swift-build/issues/13
-**Status:** Phase I Complete
 ---
 
 ## Why I Chose This Issue
