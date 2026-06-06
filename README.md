@@ -12,16 +12,16 @@
 
 ## Why I Chose This Issue
 
-I chose this issue because it gave me the chance to explore a part of software development that I had very little experience with before: build systems and linker behavior. Most of the projects I have worked on have focused on writing application code, so I was curious about what happens behind the scenes when software is built and linked. Since I develop primarily on macOS, I was also excited by the opportunity to contribute to a project in the Swift ecosystem and learn more about the tools that support it.
+I chose this issue because it was one of the first open-source issues I found where I could clearly follow the problem from the bug report all the way down to the build system. Most of my previous experience has been with application development and research projects, where I have developed strong problem-solving and debugging skills. This issue gave me the opportunity to apply those skills while learning more about what happens during the compilation and linking stages of software development rather than focusing only on application-level code. Since I develop on macOS, I was also excited by the opportunity to explore the Swift ecosystem and contribute to a project involved in building and linking software behind the scenes.
 
-What especially interested me about this issue was that the problem was not an obvious bug in the application itself, but a subtle compatibility issue between different linkers. Investigating it required reading unfamiliar code, reproducing the behavior, and understanding how build tools handle paths containing spaces. Through this contribution, I hope to become more comfortable navigating large open-source codebases, debugging real-world issues, and contributing fixes that improve the developer experience for others.
+What stood out to me about this issue was how specific and unexpected the bug was. A project can fail simply because its path contains spaces and different linkers interpret file lists differently. I found it interesting that the fix wasn't about adding a new feature, but about understanding subtle differences in tool behavior across platforms. Through this contribution, I hope to gain experience working in a large codebase, communicating with maintainers, and solving the kinds of real-world edge cases that aren't usually covered in coursework.
 
 ---
 
 ## Understanding the Issue
 
 ### Problem Description
-This issue involves how Swift Build generates LinkFileList files when paths contain spaces. Apple's ld64 linker reads file list entries differently than many non-Apple linkers, which can cause paths with spaces to be interpreted incorrectly. As a result, builds may fail when projects are located in directories whose names contain spaces. I chose this issue because it combines debugging, build-system internals, and cross-platform compatibility, all areas I want to learn more about through open-source contributions.
+This issue involves how Swift Build generates LinkFileList files when paths contain spaces. Apple's ld64 linker interprets file list entries differently than many non-Apple linkers, which can cause paths with spaces to be interpreted incorrectly. As a result, builds may fail when projects are located in directories whose names contain spaces. I chose this issue because it combines debugging, build-system internals, and cross-platform compatibility, all areas I want to learn more about through open-source contributions.
 
 
 ### Expected Behavior
