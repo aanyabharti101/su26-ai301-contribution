@@ -7,10 +7,10 @@
 **Project Fork Link:** https://github.com/aanyabharti101/swift-build
 **Status:** Phase I Complete
 
-**Contribution Number:** [1 / 2 / 3]  
-**Student:** [Your Name]  
-**Issue:** [GitHub issue link]  
-**Status:** [Phase I / Phase II / Phase III / Phase IV] [In Progress / Complete]
+**Contribution Number:** 1 
+**Student:** Aanya Bharti 
+**Issue:** https://github.com/swiftlang/swift-build/issues/13
+**Status:** Phase I Complete
 ---
 
 ## Why I Chose This Issue
