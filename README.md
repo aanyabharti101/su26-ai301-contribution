@@ -1,5 +1,5 @@
 # su26-ai301-contribution
-# Contribution [#]: [Issue Title]
+# Contribution [#1]: [LinkFileList generation needs to use quoting]
 
 **Contribution Number:** [1 / 2 / 3]  
 **Student:** [Your Name]  
