@@ -26,17 +26,54 @@ This issue involves how Swift Build generates LinkFileList files when paths cont
 
 ### Expected Behavior
 
-[What should happen?]
+When Swift Build generates a LinkFileList for a non-Apple linker, file paths containing spaces should be written using a quoted response-file format so the linker interprets the entire path as a single argument.
+For example, if an object file is located at:
+
+/tmp/Test/a Project/Object.o
+
+the generated LinkFileList should contain a properly quoted entry such as:
+
+'/tmp/Test/a Project/Object.o'
+(or the equivalent quoting format expected by the linker).
+
+This ensures that directories containing spaces, such as "a Project", are treated as part of the file path rather than being split into multiple arguments during linking.
+As a result, builds should succeed regardless of whether project paths contain spaces.
+
+
 
 ### Current Behavior
 
-[What actually happens?]
+When a project path contains spaces, Swift Build generates LinkFileList entries without quoting.
+
+During reproduction, the generated LinkFileList contained:
+
+/tmp/Test/a Project/build/a Project.build/Debug/StaticLib1.build/Objects-normal/arm64/File.o
+/tmp/Test/a Project/Object.o
+
+Because these paths are emitted as raw unquoted strings, non-Apple linkers may incorrectly interpret the spaces as argument separators instead of part of the file path. This can cause linking failures when projects are located in directories whose names contain spaces.
+
+
+
 
 ### Affected Components
 
 [Which parts of the codebase are involved?]
-- Sources/SWBTaskConstruction/TaskProducers/OtherTaskProducers.swift
+Primary files investigated:
+
+- Sources/SWBCore/SpecImplementations/LinkerSpec.swift
+- Sources/SWBUtil/ResponseFiles.swift
+- Sources/SWBUniversalPlatform/Specs/Ld.xcspec
 - Sources/SWBGenericUnixPlatform/Specs/UnixLd.xcspec
+- Sources/SWBWindowsPlatform/Specs/WindowsLd.xcspec
+- Tests/SWBTaskConstructionTests/TaskConstructionTests.swift
+
+Relevant function:
+
+- LinkerSpec.inputFileListContents()
+
+Relevant build setting:
+
+- LINKER_FILE_LIST_FORMAT
 
 ---
 
@@ -46,18 +83,79 @@ This issue involves how Swift Build generates LinkFileList files when paths cont
 
 [Notes on setting up your local development environment - challenges you faced, how you solved them]
 
+Environment:
+
+- macOS (Apple Silicon)
+- Swift 6.2.4
+- swift-driver 1.127.15
+
+Setup Process:
+
+1. Forked swiftlang/swift-build
+2. Cloned repository locally
+3. Built project using:
+
+   swift build
+
+Challenges Encountered:
+
+- Several test commands produced Homebrew Boost search-path warnings.
+- QNX platform tests could not be executed locally because the required QNX SDK is not installed.
+
+Resolution:
+
+- The build completed successfully despite the warnings.
+- For investigation, I focused on task-construction tests and code inspection rather than QNX execution.
+  
+
 ### Steps to Reproduce
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+
+1. Open:
+
+   Tests/SWBTaskConstructionTests/TaskConstructionTests.swift
+
+2. Locate the staticLibraries() test.
+
+3. Change the test project name from:
+
+   "aProject"
+
+   to:
+
+   "a Project"
+
+4. Add temporary debugging output inside the LinkFileList validation block:
+
+   print("SRCROOT:", SRCROOT)
+   print("LINK FILE LIST CONTENTS:", contents.asString)
+
+5. Run:
+
+   swift test --filter TaskConstructionTests/staticLibraries
+
+6. Observe the generated LinkFileList contents.
+
+Expected:
+
+Paths containing spaces should be quoted when using a non-Apple linker response-file format.
+
+Actual:
+
+The generated LinkFileList contains unquoted paths such as:
+
+/tmp/Test/a Project/Object.o
+
+demonstrating that paths containing spaces are written without quoting.
+
 
 ### Reproduction Evidence
 
 - **Commit showing reproduction:** [Link to commit in your fork]
 - **Screenshots/logs:** [If applicable]
-- **My findings:** [What you discovered during reproduction]
+  <img width="1400" height="1330" alt="image" src="https://github.com/user-attachments/assets/4ec64f9d-81cc-44e4-a1be-5f4b0b884fb1" />
 
+- **My findings:** Paths containing spaces are emitted without quoting.
 ---
 
 ## Solution Approach
