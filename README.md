@@ -6,7 +6,7 @@
 **GitHub Username:** aanyabharti101  
 **Issue:** https://github.com/swiftlang/swift-build/issues/13  
 **Project Fork Link:** https://github.com/aanyabharti101/swift-build  
-**Status:** Phase I Complete  
+**Status:** Phase II Complete  
 
 ---
 
@@ -56,8 +56,6 @@ Because these paths are emitted as raw unquoted strings, non-Apple linkers may i
 
 
 ### Affected Components
-
-[Which parts of the codebase are involved?]
 Primary files investigated:
 
 - Sources/SWBCore/SpecImplementations/LinkerSpec.swift
@@ -80,8 +78,6 @@ Relevant build setting:
 ## Reproduction Process
 
 ### Environment Setup
-
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
 
 Environment:
 
@@ -109,7 +105,6 @@ Resolution:
   
 
 ### Steps to Reproduce
-
 
 1. Open:
 
@@ -151,7 +146,7 @@ demonstrating that paths containing spaces are written without quoting.
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [Link to commit in your fork]
+- **Commit showing reproduction:** **Commit showing reproduction:** Reproduction was performed locally using temporary test modifications and debugging output. No reproduction-specific commit was created.
 - **Screenshots/logs:** [If applicable]
   <img width="1400" height="1330" alt="image" src="https://github.com/user-attachments/assets/4ec64f9d-81cc-44e4-a1be-5f4b0b884fb1" />
 
@@ -161,8 +156,6 @@ demonstrating that paths containing spaces are written without quoting.
 ## Solution Approach
 
 ### Analysis
-
-[Your analysis of the root cause - what's causing the issue?]
 The issue does not appear to be caused by ResponseFiles.swift itself because the file already supports multiple quoting formats, including:
 
 - unixShellQuotedNewlineSeparated
@@ -177,9 +170,8 @@ Sources/SWBCore/SpecImplementations/LinkerSpec.swift
 
 The likely root cause is that certain linker configurations use an unquoted response-file format even when the underlying linker requires shell-quoted paths.
 
-### Proposed Solution
 
-[High-level description of your fix approach]
+### Proposed Solution
 Determine how the linker type is detected during task construction and ensure that non-Apple linkers use a quoted LinkFileList format.
 
 Potential approach:
