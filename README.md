@@ -163,29 +163,69 @@ demonstrating that paths containing spaces are written without quoting.
 ### Analysis
 
 [Your analysis of the root cause - what's causing the issue?]
+The issue does not appear to be caused by ResponseFiles.swift itself because the file already supports multiple quoting formats, including:
+
+- unixShellQuotedNewlineSeparated
+- unixShellQuotedSpaceSeparated
+- windowsShellQuotedNewlineSeparated
+
+Investigation showed that LinkFileList generation ultimately depends on:
+LINKER_FILE_LIST_FORMAT
+
+which is evaluated in:
+Sources/SWBCore/SpecImplementations/LinkerSpec.swift
+
+The likely root cause is that certain linker configurations use an unquoted response-file format even when the underlying linker requires shell-quoted paths.
 
 ### Proposed Solution
 
 [High-level description of your fix approach]
+Determine how the linker type is detected during task construction and ensure that non-Apple linkers use a quoted LinkFileList format.
+
+Potential approach:
+
+- Detect whether the linker is Apple's ld64 or a non-Apple linker.
+- Preserve current behavior for ld64.
+- Override LINKER_FILE_LIST_FORMAT for non-Apple linkers to use:
+
+  unixShellQuotedNewlineSeparated
+
+- Add tests that verify paths containing spaces are correctly written to LinkFileList files.
+  
 
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
 **Understand:** [Restate the problem]
+Swift Build generates LinkFileList files containing object file paths. Non-Apple linkers require quoted paths when those paths contain spaces. Currently, unquoted paths may be emitted, causing linker failures.
 
 **Match:** [What similar patterns/solutions exist in the codebase?]
+Existing response-file handling already supports quoted formats in:
+Sources/SWBUtil/ResponseFiles.swift
+Platform-specific linker specifications also define different LINKER_FILE_LIST_FORMAT values.
+
 
 **Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+1. Trace how LINKER_FILE_LIST_FORMAT is selected.
+2. Identify where linker type is detected.
+3. Modify logic so non-Apple linkers use unixShellQuotedNewlineSeparated.
+4. Add or update tests covering paths containing spaces.
+5. Verify existing linker tests continue to pass.
 
 **Implement:** [Link to your branch/commits as you work]
 
 **Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
+- Verify contribution follows project conventions.
+- Run relevant tests before creating a PR.
+- Ensure Apple linker behavior remains unchanged.
 
 **Evaluate:** [How will you verify it works?]
+Success criteria:
+
+- Paths containing spaces are quoted for non-Apple linkers.
+- Existing tests continue to pass.
+- New regression test passes.
 
 ---
 
