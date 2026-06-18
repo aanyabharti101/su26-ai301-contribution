@@ -266,12 +266,13 @@ Added regression test linkFileListQuotingForNonAppleLinker() in Tests/SWBTaskCon
 Sources/SWBCore/SpecImplementations/Tools/LinkerTools.swift
 Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift
 
-- **Key commits:** [Links to important commits]
-- 690816c — Quote LinkFileList paths for non-Apple linkers [link: https://github.com/aanyabharti101/swift-build/commit/690816c1a6431f1cf297ccf8fae2636100f8591b]
-- **Approach decisions:** [Why you chose certain approaches]
-- Reused the existing response-file formatting infrastructure instead of introducing a new quoting mechanism.
-- Limited behavior changes to non-Apple linkers to avoid altering existing ld64 behavior.
-- Added a regression test using existing TaskConstruction test helpers so the fix follows established project testing patterns.
+- **Key commits:** 
+  * 690816c — Quote LinkFileList paths for non-Apple linkers [link: https://github.com/aanyabharti101/swift-build/commit/690816c1a6431f1cf297ccf8fae2636100f8591b]
+  
+- **Approach decisions:** 
+* Reused the existing response-file formatting infrastructure instead of introducing a new quoting mechanism.
+* Limited behavior changes to non-Apple linkers to avoid altering existing ld64 behavior.
+* Added a regression test using existing TaskConstruction test helpers so the fix follows established project testing patterns.
 
 ## Pull Request
 
