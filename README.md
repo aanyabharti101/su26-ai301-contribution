@@ -269,7 +269,9 @@ Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift
 - **Key commits:** [Links to important commits]
 - 690816c — Quote LinkFileList paths for non-Apple linkers [link: https://github.com/aanyabharti101/swift-build/commit/690816c1a6431f1cf297ccf8fae2636100f8591b]
 - **Approach decisions:** [Why you chose certain approaches]
-
+- Reused the existing response-file formatting infrastructure instead of introducing a new quoting mechanism.
+- Limited behavior changes to non-Apple linkers to avoid altering existing ld64 behavior.
+- Added a regression test using existing TaskConstruction test helpers so the fix follows established project testing patterns.
 
 ## Pull Request
 
@@ -294,6 +296,9 @@ Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift
 ### Challenges Overcome
 
 [What was hard and how you solved it]
+The original issue referenced non-Apple linker behavior, but development was performed on macOS.
+QNX-specific tests could not be executed locally because the required SDK was not installed.
+To work around this, I reproduced the issue through task-construction tests, code tracing, and inspection of generated LinkFileList contents rather than relying on platform-specific execution.
 
 ### What I'd Do Differently Next Time
 
