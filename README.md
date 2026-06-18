@@ -226,26 +226,35 @@ Success criteria:
 
 ### Unit Tests
 
-- [ ] Test case 1: [Description]
-- [ ] Test case 2: [Description]
-- [ ] Test case 3: [Description]
+- [ ] Test case 1: Added regression test linkFileListQuotingForNonAppleLinker() in Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift. The test creates a project path containing a space and verifies that generated LinkFileList entries are quoted for non-Apple linkers.
+- [ ] Test case 2: Reviewed existing tests in LinkerTaskConstructionTests.swift and followed the same testing structure and assertions used elsewhere in the file.
+- [ ] Test case 3: Verified that the implementation only changes behavior for non-Apple linkers by applying the format override when the discovered linker is not ld64.
 
 ### Integration Tests
 
-- [ ] Integration scenario 1
-- [ ] Integration scenario 2
+- [ ] Integration scenario 1: Confirmed that the new logic integrates with the existing linker task construction workflow in LinkerTools.swift.
+- [ ] Integration scenario 2: Confirmed that the implementation reuses the existing response-file formatting infrastructure rather than introducing a separate quoting implementation.
 
 ### Manual Testing
 
-[What you tested manually and results]
+Reproduced the issue by changing the test project name from aProject to a Project.
+Added temporary debugging output to inspect generated LinkFileList contents.
+Confirmed paths containing spaces were emitted without quoting before the fix.
+Traced execution through LinkerTools.swift, LinkerSpec.swift, and ResponseFiles.swift to verify the fix targets the correct code path.
+
 
 ---
 
 ## Implementation Notes
 
-### Week [X] Progress
+### Week [3] Progress
 
-[What you built this week, challenges faced, decisions made]
+Investigated Issue #13 and traced how LinkFileList files are generated during linker task construction.
+Reproduced the issue using a project path containing spaces.
+Identified LINKER_FILE_LIST_FORMAT as the setting controlling LinkFileList formatting.
+Modified Sources/SWBCore/SpecImplementations/Tools/LinkerTools.swift to determine linker type before generating LinkFileList contents.
+Added logic to use unixShellQuotedNewlineSeparated for non-Apple linkers while preserving existing ld64 behavior.
+Added regression test linkFileListQuotingForNonAppleLinker() in Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift.
 
 ### Week [Y] Progress
 
@@ -253,11 +262,14 @@ Success criteria:
 
 ### Code Changes
 
-- **Files modified:** [List]
+- **Files modified:**
+Sources/SWBCore/SpecImplementations/Tools/LinkerTools.swift
+Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift
+
 - **Key commits:** [Links to important commits]
+- 690816c — Quote LinkFileList paths for non-Apple linkers [link: https://github.com/aanyabharti101/swift-build/commit/690816c1a6431f1cf297ccf8fae2636100f8591b]
 - **Approach decisions:** [Why you chose certain approaches]
 
----
 
 ## Pull Request
 
