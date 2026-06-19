@@ -242,6 +242,7 @@ Added temporary debugging output to inspect generated LinkFileList contents.
 Confirmed paths containing spaces were emitted without quoting before the fix.
 Traced execution through LinkerTools.swift, LinkerSpec.swift, and ResponseFiles.swift to verify the fix targets the correct code path.
 
+- Ran `swift test --filter linkFileListQuotingForNonAppleLinker`. The regression test compiled successfully and was discovered by the test runner, but execution was skipped because the test requires a Linux host and development was performed on macOS.
 
 ---
 
