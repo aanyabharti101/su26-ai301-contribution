@@ -6,7 +6,7 @@
 **GitHub Username:** aanyabharti101  
 **Issue:** https://github.com/swiftlang/swift-build/issues/13  
 **Project Fork Link:** https://github.com/aanyabharti101/swift-build  
-**Status:** Phase II Complete  
+**Status:** Phase III Complete  
 
 ---
 
@@ -226,14 +226,14 @@ Success criteria:
 
 ### Unit Tests
 
-- [ ] Test case 1: Added regression test linkFileListQuotingForNonAppleLinker() in Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift. The test creates a project path containing a space and verifies that generated LinkFileList entries are quoted for non-Apple linkers.
-- [ ] Test case 2: Reviewed existing tests in LinkerTaskConstructionTests.swift and followed the same testing structure and assertions used elsewhere in the file.
-- [ ] Test case 3: Verified that the implementation only changes behavior for non-Apple linkers by applying the format override when the discovered linker is not ld64.
+- [x] Test case 1: Added regression test linkFileListQuotingForNonAppleLinker() in Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift. The test creates a project path containing a space and verifies that generated LinkFileList entries are quoted for non-Apple linkers.
+- [x] Test case 2: Reviewed existing tests in LinkerTaskConstructionTests.swift and followed the same testing structure and assertions used elsewhere in the file.
+- [x] Test case 3: Reviewed the implementation logic to confirm that the format override is only applied when the discovered linker is not ld64.
 
 ### Integration Tests
 
-- [ ] Integration scenario 1: Confirmed that the new logic integrates with the existing linker task construction workflow in LinkerTools.swift.
-- [ ] Integration scenario 2: Confirmed that the implementation reuses the existing response-file formatting infrastructure rather than introducing a separate quoting implementation.
+- [x] Integration scenario 1: Reviewed how the new logic integrates with the existing linker task construction workflow in LinkerTools.swift.
+- [x] Integration scenario 2: Verified that the implementation reuses the existing response-file formatting infrastructure rather than introducing a separate quoting mechanism.
 
 ### Manual Testing
 
@@ -256,8 +256,9 @@ Identified LINKER_FILE_LIST_FORMAT as the setting controlling LinkFileList forma
 Modified Sources/SWBCore/SpecImplementations/Tools/LinkerTools.swift to determine linker type before generating LinkFileList contents.
 Added logic to use unixShellQuotedNewlineSeparated for non-Apple linkers while preserving existing ld64 behavior.
 Added regression test linkFileListQuotingForNonAppleLinker() in Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift.
+Strengthened the regression test to verify the expected quoted object-file path rather than only checking for a quoted source-root prefix.
 
-### Week [Y] Progress
+### Week [4] Progress
 
 [Continue documenting as you work]
 
@@ -268,12 +269,16 @@ Sources/SWBCore/SpecImplementations/Tools/LinkerTools.swift
 Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift
 
 - **Key commits:** 
-  * 690816c — Quote LinkFileList paths for non-Apple linkers [link: https://github.com/aanyabharti101/swift-build/commit/690816c1a6431f1cf297ccf8fae2636100f8591b]
+  * 690816c - Quote LinkFileList paths for non-Apple linkers [link: https://github.com/aanyabharti101/swift-build/commit/690816c1a6431f1cf297ccf8fae2636100f8591b]
+  * 095a3ada - Strengthen LinkFileList quoting regression test [link: https://github.com/aanyabharti101/swift-build/commit/095a3ada52a17f621c5a697ba40cbcab18e2e102] 
   
 - **Approach decisions:** 
 * Reused the existing response-file formatting infrastructure instead of introducing a new quoting mechanism.
 * Limited behavior changes to non-Apple linkers to avoid altering existing ld64 behavior.
 * Added a regression test using existing TaskConstruction test helpers so the fix follows established project testing patterns.
+
+- **Branch Link:**
+https://github.com/aanyabharti101/swift-build/tree/issue-13-linkfilelist-quoting
 
 ## Pull Request
 
@@ -301,6 +306,8 @@ Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift
 The original issue referenced non-Apple linker behavior, but development was performed on macOS.
 QNX-specific tests could not be executed locally because the required SDK was not installed.
 To work around this, I reproduced the issue through task-construction tests, code tracing, and inspection of generated LinkFileList contents rather than relying on platform-specific execution.
+Another challenge was the new regression test is Linux-only and cannot execute on my macOS development machine.
+To address this, I verified that the test is discovered and compiled successfully using swift test --filter linkFileListQuotingForNonAppleLinker and relied on code inspection plus manual reproduction steps to validate the implementation locally.
 
 ### What I'd Do Differently Next Time
 
