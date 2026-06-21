@@ -229,6 +229,7 @@ Success criteria:
 - [x] Test case 1: Added regression test linkFileListQuotingForNonAppleLinker() in Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift. The test creates a project path containing a space and verifies that generated LinkFileList entries are quoted for non-Apple linkers.
 - [x] Test case 2: Reviewed existing tests in LinkerTaskConstructionTests.swift and followed the same testing structure and assertions used elsewhere in the file.
 - [x] Test case 3: Reviewed the implementation logic to confirm that the format override is only applied when the discovered linker is not ld64.
+- [x] Test case 4: Added `responseFileContentUnixNewlineQuotedPaths()` in `Tests/SWBUtilTests/ResponseFileTests.swift` to verify that `unixShellQuotedNewlineSeparated` produces quoted newline-separated entries for paths containing spaces.
 
 ### Integration Tests
 
@@ -257,6 +258,7 @@ Modified Sources/SWBCore/SpecImplementations/Tools/LinkerTools.swift to determin
 Added logic to use unixShellQuotedNewlineSeparated for non-Apple linkers while preserving existing ld64 behavior.
 Added regression test linkFileListQuotingForNonAppleLinker() in Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift.
 Strengthened the regression test to verify the expected quoted object-file path rather than only checking for a quoted source-root prefix.
+Added a macOS-runnable ResponseFiles unit test to verify that `unixShellQuotedNewlineSeparated` quotes paths containing spaces.
 
 ### Week [4] Progress
 
@@ -270,7 +272,8 @@ Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift
 
 - **Key commits:** 
   * 690816c - Quote LinkFileList paths for non-Apple linkers [link: https://github.com/aanyabharti101/swift-build/commit/690816c1a6431f1cf297ccf8fae2636100f8591b]
-  * 095a3ada - Strengthen LinkFileList quoting regression test [link: https://github.com/aanyabharti101/swift-build/commit/095a3ada52a17f621c5a697ba40cbcab18e2e102] 
+  * 095a3ada - Strengthen LinkFileList quoting regression test [link: https://github.com/aanyabharti101/swift-build/commit/095a3ada52a17f621c5a697ba40cbcab18e2e102]
+  * 9c36402 - Add ResponseFiles coverage for quoted paths [link: https://github.com/aanyabharti101/swift-build/commit/9c36402]
   
 - **Approach decisions:** 
 * Reused the existing response-file formatting infrastructure instead of introducing a new quoting mechanism.
