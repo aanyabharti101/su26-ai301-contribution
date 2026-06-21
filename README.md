@@ -306,7 +306,7 @@ https://github.com/aanyabharti101/swift-build/tree/issue-13-linkfilelist-quoting
 
 ### Challenges Overcome
 
-[What was hard and how you solved it]
+[What was hard and how you solved it]  
 The original issue referenced non-Apple linker behavior, but development was performed on macOS.
 QNX-specific tests could not be executed locally because the required SDK was not installed.
 To work around this, I reproduced the issue through task-construction tests, code tracing, and inspection of generated LinkFileList contents rather than relying on platform-specific execution.
