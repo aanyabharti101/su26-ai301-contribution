@@ -269,6 +269,7 @@ Added a macOS-runnable ResponseFiles unit test to verify that `unixShellQuotedNe
 - **Files modified:**
 Sources/SWBCore/SpecImplementations/Tools/LinkerTools.swift
 Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift
+Tests/SWBUtilTests/ResponseFileTests.swift
 
 - **Key commits:** 
   * 690816c - Quote LinkFileList paths for non-Apple linkers [link: https://github.com/aanyabharti101/swift-build/commit/690816c1a6431f1cf297ccf8fae2636100f8591b]
