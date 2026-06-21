@@ -146,7 +146,7 @@ demonstrating that paths containing spaces are written without quoting.
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** **Commit showing reproduction:** Reproduction was performed locally using temporary test modifications and debugging output. No reproduction-specific commit was created.
+- **Commit showing reproduction:** Reproduction was performed locally using temporary test modifications and debugging output. No reproduction-specific commit was created.
 - **Screenshots/logs:** [If applicable]
   <img width="1400" height="1330" alt="image" src="https://github.com/user-attachments/assets/4ec64f9d-81cc-44e4-a1be-5f4b0b884fb1" />
 
