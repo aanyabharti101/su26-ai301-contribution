@@ -286,23 +286,25 @@ https://github.com/aanyabharti101/swift-build/tree/issue-13-linkfilelist-quoting
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when submitted]
+**PR Link:** https://github.com/swiftlang/swift-build/pull/1477
 
-**PR Description:** [Draft or final PR description - much of the content above can be adapted]
+**PR Description:** This Final PR fixes Issue #13 by ensuring that LinkFileList entries are generated using a quoted response-file format for non-Apple linkers while preserving existing behavior for Apple's ld64 linker.
 
 **Maintainer Feedback:**
-- [Date]: [Summary of feedback received]
-- [Date]: [How you addressed it]
+- 2026-06-23: Opened PR #1477 and requested review from project code owners.
+- 2026-06-23: Awaiting maintainer review.
 
-**Status:** [Awaiting review / Iterating / Approved / Merged]
+**Status:** Awaiting Review
 
 ---
 
 ## Learnings & Reflections
 
 ### Technical Skills Gained
-
-[What you learned technically]
+Through this contribution I learned how Swift Build constructs linker tasks and generates response files during the build process. 
+I gained experience tracing build-system behavior across multiple layers of a large codebase rather than focusing on application-level code.
+I also learned how different linkers handle file-list parsing and why quoting requirements vary across platforms.
+In addition, I became more comfortable reading existing test infrastructure and creating regression tests that follow established project patterns.
 
 ### Challenges Overcome
 
@@ -315,12 +317,19 @@ To address this, I verified that the test is discovered and compiled successfull
 
 ### What I'd Do Differently Next Time
 
-[Reflection on your process]
+Next time I would spend more time exploring the existing test suite before beginning implementation. 
+Reading related tests earlier would have helped me identify the best location for regression coverage more quickly.
+I would also create a small investigation document while debugging so that I can track findings, dead ends, and relevant source files more systematically throughout the contribution process.
 
 ---
 
+
 ## Resources Used
 
-- [Link to helpful documentation]
-- [Tutorial or Stack Overflow post that helped]
-- [GitHub issues or discussions that helped]
+- Swift Build Issue #13: https://github.com/swiftlang/swift-build/issues/13
+- Swift Build repository: https://github.com/swiftlang/swift-build
+- GitHub Pull Request documentation: https://docs.github.com/en/pull-requests
+- Swift Build source files:
+  - Sources/SWBCore/SpecImplementations/Tools/LinkerTools.swift
+  - Tests/SWBTaskConstructionTests/LinkerTaskConstructionTests.swift
+  - Tests/SWBUtilTests/ResponseFileTests.swift
