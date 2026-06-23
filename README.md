@@ -309,8 +309,6 @@ I also learned how different linkers handle file-list parsing and why quoting re
 In addition, I became more comfortable reading existing test infrastructure and creating regression tests that follow established project patterns.
 
 ### Challenges Overcome
-
-[What was hard and how you solved it]  
 The original issue referenced non-Apple linker behavior, but development was performed on macOS.
 QNX-specific tests could not be executed locally because the required SDK was not installed.
 To work around this, I reproduced the issue through task-construction tests, code tracing, and inspection of generated LinkFileList contents rather than relying on platform-specific execution.
@@ -318,7 +316,6 @@ Another challenge was the new regression test is Linux-only and cannot execute o
 To address this, I verified that the test is discovered and compiled successfully using swift test --filter linkFileListQuotingForNonAppleLinker and relied on code inspection plus manual reproduction steps to validate the implementation locally.
 
 ### What I'd Do Differently Next Time
-
 Next time I would spend more time exploring the existing test suite before beginning implementation. 
 Reading related tests earlier would have helped me identify the best location for regression coverage more quickly.
 I would also create a small investigation document while debugging so that I can track findings, dead ends, and relevant source files more systematically throughout the contribution process.
