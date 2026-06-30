@@ -370,9 +370,9 @@ I would also create a small investigation document while debugging so that I can
 
 
 **Contribution Number:** 2  
-**Student:** Aanya Bharti 
-**Issue:** https://github.com/firebase/firebase-tools/issues/3728
-**Status:** Phase I In Progress
+**Student:** Aanya Bharti  
+**Issue:** https://github.com/firebase/firebase-tools/issues/3728  
+**Status:** Phase I In Progress  
 
 ---
 
@@ -389,7 +389,9 @@ The issue has clear maintainer guidance pointing to the relevant source file, ma
 
 ### Problem Description
 
-[In your own words, what's broken or missing?]
+When the Firebase Functions Emulator starts, it logs the URL for each HTTP function using 0.0.0.0 as the host (for example, http://0.0.0.0:5001/...). 
+While 0.0.0.0 is the correct address for binding the emulator to all network interfaces, it is not the most useful address for developers to open in a browser. 
+The issue requests that the displayed URL use localhost instead, making it easier to click or copy the link during local development.
 
 ### Expected Behavior
 
