@@ -527,6 +527,9 @@ Using UMPIRE framework (adapted):
 
 
 
+</details>
+
+---
 
 
 
