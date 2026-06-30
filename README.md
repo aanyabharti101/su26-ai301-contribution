@@ -10,9 +10,9 @@ This repository documents my open-source contributions for CodePath AI301.
 - [Contribution #2 – Display proper URLs when initializing](#contribution-2-display-proper-urls-when-initializing)
 
 | # | Project | Issue | Status |
-|---|---------|-------|--------|
-| 1 | Swift Build | LinkFileList generation needs to use quoting | ✅ Phase IV Complete |
-| 2 | Firebase Tools | Display proper URLs when initializing (#3728) | 🟡 Phase I |
+|---|---------|-------|--------| 
+| 1 | Swift Build | LinkFileList generation needs to use quoting (#13)| ✅ Phase IV Complete - Iterating|
+| 2 | Firebase Tools | Display proper URLs when initializing (#3728) | 🟡 Phase I Complete |
 
 ---
 
@@ -316,8 +316,9 @@ https://github.com/aanyabharti101/swift-build/tree/issue-13-linkfilelist-quoting
 **Maintainer Feedback:**
 - 2026-06-23: Opened PR #1477 and requested review from project code owners.
 - 2026-06-23: Awaiting maintainer review.
+- 2026-06-30: Maintainer responded by triggering the project's full CI (@swift-ci test) to validate the implementation. Awaiting test results and any further review comments.
 
-**Status:** Awaiting Review
+**Status:** Iterating
 
 ---
 
@@ -366,18 +367,21 @@ I would also create a small investigation document while debugging so that I can
 
 
 # Contribution [#2]: [Display proper URLs when initializing.
-]
+
 
 **Contribution Number:** 2  
-**Student:** [Your Name]  
-**Issue:** [GitHub issue link]  
-**Status:** [Phase I / Phase II / Phase III / Phase IV] [In Progress / Complete]
+**Student:** Aanya Bharti 
+**Issue:** https://github.com/firebase/firebase-tools/issues/3728
+**Status:** Phase I In Progress
 
 ---
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
+I chose this issue because it is a focused developer-experience improvement in a widely used open-source project. 
+The current behavior displays a Firebase Functions Emulator URL using 0.0.0.0, which is correct as a bind address but inconvenient for developers because it is not directly usable in a browser. 
+The issue has clear maintainer guidance pointing to the relevant source file, making it a good opportunity to contribute to a large TypeScript codebase while improving the developer experience.
+
 
 ---
 
