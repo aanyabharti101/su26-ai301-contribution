@@ -10,7 +10,6 @@ This repository documents my open-source contributions for CodePath AI301.
 - [Contribution #2 – Display proper URLs when initializing](#contribution-2-display-proper-urls-when-initializing)
 
 
-# ==============================================================================
 # Contribution #1: LinkFileList generation needs to use quoting
 
 **Contribution Number:** 1  
