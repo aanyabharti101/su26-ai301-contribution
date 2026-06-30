@@ -361,11 +361,14 @@ I would also create a small investigation document while debugging so that I can
 
 ---
 
+<details open>
+<summary><h1>🚀 Contribution #2 – Firebase Tools</h1></summary>
 
 
-# Contribution [#]: [Issue Title]
+# Contribution [#2]: [Display proper URLs when initializing.
+]
 
-**Contribution Number:** [1 / 2 / 3]  
+**Contribution Number:** 2  
 **Student:** [Your Name]  
 **Issue:** [GitHub issue link]  
 **Status:** [Phase I / Phase II / Phase III / Phase IV] [In Progress / Complete]
