@@ -9,25 +9,6 @@ This repository documents my open-source contributions for CodePath AI301.
 - [Contribution #1 – LinkFileList generation needs to use quoting](#contribution-1-linkfilelist-generation-needs-to-use-quoting)
 - [Contribution #2 – Display proper URLs when initializing](#contribution-2-display-proper-urls-when-initializing)
 
----
-
-# Contribution #1: LinkFileList generation needs to use quoting
-
-...all of your existing sections...
-
----
-
-<br>
-
-# ==============================================================================
-
-# Contribution #2: Display proper URLs when initializing (#3728)
-
-...all of the new sections...
-
----
-
-<br>
 
 # ==============================================================================
 # Contribution #1: LinkFileList generation needs to use quoting
