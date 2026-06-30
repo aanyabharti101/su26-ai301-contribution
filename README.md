@@ -9,6 +9,16 @@ This repository documents my open-source contributions for CodePath AI301.
 - [Contribution #1 – LinkFileList generation needs to use quoting](#contribution-1-linkfilelist-generation-needs-to-use-quoting)
 - [Contribution #2 – Display proper URLs when initializing](#contribution-2-display-proper-urls-when-initializing)
 
+| # | Project | Issue | Status |
+|---|---------|-------|--------|
+| 1 | Swift Build | LinkFileList generation needs to use quoting | ✅ Phase IV Complete |
+| 2 | Firebase Tools | Display proper URLs when initializing (#3728) | 🟡 Phase I |
+
+---
+
+<details open>
+<summary><h1>🚀 Contribution #1 – Swift Build</h1></summary>
+
 
 # Contribution #1: LinkFileList generation needs to use quoting
 
@@ -347,7 +357,9 @@ I would also create a small investigation document while debugging so that I can
 
 
 
+</details>
 
+---
 
 
 
