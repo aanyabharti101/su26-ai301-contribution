@@ -317,6 +317,8 @@ https://github.com/aanyabharti101/swift-build/tree/issue-13-linkfilelist-quoting
 - 2026-06-23: Opened PR #1477 and requested review from project code owners.
 - 2026-06-23: Awaiting maintainer review.
 - 2026-06-30: Maintainer responded by triggering the project's full CI (@swift-ci test) to validate the implementation. Awaiting test results and any further review comments.
+- 2026-07-1 to 2026-7-7: Investigated Linux CI failures and identified that the regression test expected a macOS-style build directory (`Debug`) while Linux generates `Debug-linux-x86_64`.
+- 2026-07-08: Updated the regression test to account for the Linux-specific build directory and pushed a follow-up commit. Awaiting another round of review and CI.
 
 **Status:** Iterating
 
