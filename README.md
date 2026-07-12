@@ -271,7 +271,6 @@ Traced execution through LinkerTools.swift, LinkerSpec.swift, and ResponseFiles.
 ## Implementation Notes
 
 ### Week [3] Progress
-
 Investigated Issue #13 and traced how LinkFileList files are generated during linker task construction.
 Reproduced the issue using a project path containing spaces.
 Identified LINKER_FILE_LIST_FORMAT as the setting controlling LinkFileList formatting.
@@ -282,10 +281,25 @@ Strengthened the regression test to verify the expected quoted object-file path 
 Added a macOS-runnable ResponseFiles unit test to verify that `unixShellQuotedNewlineSeparated` quotes paths containing spaces.
 
 ### Week [4] Progress
-
 Completed implementation and testing for Issue #13. Added ResponseFiles unit-test coverage for quoted paths, 
 strengthened the LinkFileList regression test, rebased against the latest upstream changes, and opened Pull 
 Request #1477 against the Swift Build repository. Requested review from project code owners and maintainers.
+
+
+### Week [5] Progress
+Submitted Pull Request #1477 to the upstream Swift Build repository. Requested review from project code owners and completed the Phase IV documentation. 
+While waiting for review, began a second contribution cycle by selecting Firebase Tools Issue #3728 ("Display proper URLs when initializing"), 
+setting up the repository locally, and completing the Phase I investigation and project planning.
+
+### Week [6] Progress
+Received maintainer engagement after a follow-up comment on the pull request. The maintainer triggered the project's full cross-platform CI using
+`@swift-ci test`, which uncovered a Linux-specific failure in the new regression test. Investigated the CI logs and determined that the implementation was 
+functioning correctly, but the regression test expected the macOS build directory (`Debug`) while Linux generates `Debug-linux-x86_64`. Updated the regression 
+test to account for the Linux-specific build configuration, committed the fix, and pushed the follow-up changes to continue the review process.
+
+Current status: Pull request is under active review and awaiting another round of CI and maintainer feedback.
+
+
 
 ### Code Changes
 
