@@ -12,7 +12,7 @@ This repository documents my open-source contributions for CodePath AI301.
 | # | Project | Issue | Status |
 |---|---------|-------|--------| 
 | 1 | Swift Build | LinkFileList generation needs to use quoting (#13)| ✅ Phase IV Complete - Iterating|
-| 2 | Firebase Tools | Display proper URLs when initializing (#3728) | 🟡 Phase I Complete |
+| 2 | Firebase Tools | Display proper URLs when initializing (#3728) | 🟡 Phase II In Progress |
 
 ---
 
@@ -388,7 +388,7 @@ I would also create a small investigation document while debugging so that I can
 **Contribution Number:** 2  
 **Student:** Aanya Bharti  
 **Issue:** https://github.com/firebase/firebase-tools/issues/3728  
-**Status:** Phase I In Progress  
+**Status:** Phase II In Progress  
 
 ---
 
@@ -409,17 +409,26 @@ When the Firebase Functions Emulator starts, it logs the URL for each HTTP funct
 While 0.0.0.0 is the correct address for binding the emulator to all network interfaces, it is not the most useful address for developers to open in a browser. 
 The issue requests that the displayed URL use localhost instead, making it easier to click or copy the link during local development.
 
-### Expected Behavior
 
-[What should happen?]
+### Expected Behavior
+When the Functions Emulator is configured to bind to `0.0.0.0`, it should continue listening on all network interfaces, but the user-facing initialization message should display a browser-friendly URL such as:
+
+`http://localhost:5001/demo-url-repro/us-central1/testHTTPSFunction`
+
 
 ### Current Behavior
 
-[What actually happens?]
+Initial source-code investigation indicates that the original behavior may have been partially addressed since the issue was opened. The current code contains logic that converts `0.0.0.0` to the 
+loopback address `127.0.0.1`. Local reproduction is being performed to verify whether the current initialization message displays `0.0.0.0`, `127.0.0.1`, or `localhost`.
+
 
 ### Affected Components
 
-[Which parts of the codebase are involved?]
+- `src/emulator/functionsEmulator.ts` — constructs the HTTP function URL and prints the function initialization message.
+- `src/emulator/registry.ts` — creates connectable URLs using the emulator’s registered host and port.
+- `src/utils.ts` — contains `connectableHostname()`, which converts wildcard addresses such as `0.0.0.0` to loopback addresses.
+- `scripts/emulator-tests/functionsEmulator.spec.ts` — contains Functions Emulator tests and may be used for regression coverage.
+
 
 ---
 
@@ -427,19 +436,30 @@ The issue requests that the displayed URL use localhost instead, making it easie
 
 ### Environment Setup
 
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+I cloned my Firebase Tools fork, configured the upstream Firebase repository, synchronized my `main` branch, and created the working branch `fix-issue-3728`.
+My initial environment used Node.js 25.2.1, which was not the stable version I wanted to use for the project. 
+I installed `nvm` 0.40.6 and switched to Node.js 22.23.1 with npm 10.9.8. 
+I then installed the project’s 1,829 packages, successfully built the TypeScript codebase and MCP applications, 
+and used `npm link` to connect the `firebase` command to my local source checkout. 
+The linked CLI reports Firebase Tools version 15.24.0.
+
+The dependency installation modified `npm-shrinkwrap.json`, even though I had not intentionally changed the 
+dependency configuration. I restored that unrelated generated change to keep my working branch clean.
+
+**Working branch:** [fix-issue-3728](https://github.com/aanyabharti101/firebase-tools/tree/fix-issue-3728)
+
 
 ### Steps to Reproduce
-
+Reproduction in progress. The final numbered steps and observed output will be added after running the local Functions Emulator twice.
 1. [Step 1]
 2. [Step 2]
 3. [Observed result]
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [Link to commit in your fork]
-- **Screenshots/logs:** [If applicable]
-- **My findings:** [What you discovered during reproduction]
+- **Commit showing reproduction:** [fix-issue-3728](https://github.com/aanyabharti101/firebase-tools/tree/fix-issue-3728)  
+- **Screenshots/logs:** [If applicable] To be added after reproduction.  
+- **My findings:** [What you discovered during reproduction] To be finalized after verifying the URL displayed by Firebase Tools 15.24.0.
 
 ---
 
