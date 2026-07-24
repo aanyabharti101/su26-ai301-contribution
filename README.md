@@ -12,7 +12,7 @@ This repository documents my open-source contributions for CodePath AI301.
 | # | Project | Issue | Status |
 |---|---------|-------|--------| 
 | 1 | Swift Build | LinkFileList generation needs to use quoting (#13)| ✅ Phase IV Complete - Iterating|
-| 2 | Firebase Tools | Display proper URLs when initializing (#3728) | 🟡 Phase II In Progress |
+| 2 | Firebase Tools | Display proper URLs when initializing (#3728) | 🟡 Phase III In Progress |
 
 ---
 
@@ -388,7 +388,7 @@ I would also create a small investigation document while debugging so that I can
 **Contribution Number:** 2  
 **Student:** Aanya Bharti  
 **Issue:** https://github.com/firebase/firebase-tools/issues/3728  
-**Status:** Phase II In Progress  
+**Status:** Phase III In Progress  
 
 ---
 
@@ -451,7 +451,7 @@ dependency configuration. I restored that unrelated generated change to keep my 
 
 
 ### Steps to Reproduce
-Reproduction in progress. The final numbered steps and observed output will be added after running the local Functions Emulator twice.
+
 1. Build the local Firebase Tools source:
 
    ```bash
@@ -480,23 +480,13 @@ Reproduction in progress. The final numbered steps and observed output will be a
 5. Compare the displayed hostname with the requested `localhost` behavior.
 
 ### Reproduction Evidence
+Local reproduction confirmed that the HTTP function initialization message displayed `127.0.0.1` instead of `localhost`, while the emulator retained `0.0.0.0` as its wildcard bind address.
 
 - **Commit showing reproduction:** [fix-issue-3728](https://github.com/aanyabharti101/firebase-tools/tree/fix-issue-3728)  
 - **Screenshots/logs:** [If applicable] 
 #### Before Fix Reprodcution: Function Initialization URL Displays `127.0.0.1`
 <img width="1159" height="414" alt="Screenshot 2026-07-22 at 10 20 00 PM" src="https://github.com/user-attachments/assets/4d2dde14-3732-4c6c-b526-7492f3b83e21" />
-*Before the fix, the HTTP function initialization message displayed `http://127.0.0.1:5001/...` instead of the requested `http://localhost:5001/...`. The emulator’s host/port table separately displayed `0.0.0.0:5001`, confirming that the emulator retained its wildcard bind address.*  
-
-
-
-
-
-
-
-
-
-
-
+*Before the fix, the HTTP function initialization message displayed `http://127.0.0.1:5001/...` instead of `http://localhost:5001/...`. The host/port table separately displayed `0.0.0.0:5001`, confirming that the emulator retained its wildcard bind address.*
 
 
 
@@ -660,6 +650,7 @@ I used a separate display-formatting helper instead of changing the emulator’s
 I tested both `0.0.0.0` and `127.0.0.1` because the original issue referenced the wildcard address, while the current codebase can first convert that address to the numeric loopback address.
 
 I also included a non-loopback test case to confirm that the helper does not incorrectly replace valid network hostnames.
+
 ---
 
 ## Pull Request
