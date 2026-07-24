@@ -485,7 +485,19 @@ Reproduction in progress. The final numbered steps and observed output will be a
 - **Screenshots/logs:** [If applicable] 
 #### Before Fix Reprodcution: Function Initialization URL Displays `127.0.0.1`
 <img width="1159" height="414" alt="Screenshot 2026-07-22 at 10 20 00 PM" src="https://github.com/user-attachments/assets/4d2dde14-3732-4c6c-b526-7492f3b83e21" />
-*Before the fix, the HTTP function initialization message displayed `http://127.0.0.1:5001/...` instead of the requested `http://localhost:5001/...`. The emulator’s host/port table separately displayed `0.0.0.0:5001`, confirming that the emulator retained its wildcard bind address.*
+*Before the fix, the HTTP function initialization message displayed `http://127.0.0.1:5001/...` instead of the requested `http://localhost:5001/...`. The emulator’s host/port table separately displayed `0.0.0.0:5001`, confirming that the emulator retained its wildcard bind address.*  
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 - **My findings:** [What you discovered during reproduction] The emulator correctly used `0.0.0.0` as its bind address, but the user-facing function initialization URL was converted to `127.0.0.1`. Therefore, the issue still existed in a modified form: the displayed URL used a numeric loopback address instead of the requested `localhost`.
