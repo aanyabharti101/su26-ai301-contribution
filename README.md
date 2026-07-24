@@ -418,8 +418,8 @@ When the Functions Emulator is configured to bind to `0.0.0.0`, it should contin
 
 ### Current Behavior
 
-Initial source-code investigation indicates that the original behavior may have been partially addressed since the issue was opened. The current code contains logic that converts `0.0.0.0` to the 
-loopback address `127.0.0.1`. Local reproduction is being performed to verify whether the current initialization message displays `0.0.0.0`, `127.0.0.1`, or `localhost`.
+Initial source-code investigation indicates that the original behavior may have been partially addressed since the issue was opened. 
+Local reproduction confirmed that the initialization message displayed `127.0.0.1` instead of the requested `localhost`.
 
 
 ### Affected Components
@@ -483,14 +483,14 @@ dependency configuration. I restored that unrelated generated change to keep my 
 Local reproduction confirmed that the HTTP function initialization message displayed `127.0.0.1` instead of `localhost`, while the emulator retained `0.0.0.0` as its wildcard bind address.
 
 - **Commit showing reproduction:** [fix-issue-3728](https://github.com/aanyabharti101/firebase-tools/tree/fix-issue-3728)  
-- **Screenshots/logs:** [If applicable] 
+- **Screenshots/logs:** 
 #### Before Fix Reprodcution: Function Initialization URL Displays `127.0.0.1`
 <img width="1159" height="414" alt="Screenshot 2026-07-22 at 10 20 00 PM" src="https://github.com/user-attachments/assets/4d2dde14-3732-4c6c-b526-7492f3b83e21" />
 *Before the fix, the HTTP function initialization message displayed `http://127.0.0.1:5001/...` instead of `http://localhost:5001/...`. The host/port table separately displayed `0.0.0.0:5001`, confirming that the emulator retained its wildcard bind address.*
 
 
 
-- **My findings:** [What you discovered during reproduction] The emulator correctly used `0.0.0.0` as its bind address, but the user-facing function initialization URL was converted to `127.0.0.1`. Therefore, the issue still existed in a modified form: the displayed URL used a numeric loopback address instead of the requested `localhost`.
+- **My findings:**  The emulator correctly used `0.0.0.0` as its bind address, but the user-facing function initialization URL was converted to `127.0.0.1`. Therefore, the issue still existed in a modified form: the displayed URL used a numeric loopback address instead of the requested `localhost`.
 The `127.0.0.1` addresses displayed in the Emulator UI and host/port summary are separate from the function-initialization messages and are outside the scope of issue #3728.
 ---
 
@@ -517,7 +517,7 @@ Using UMPIRE framework (adapted):
 **Match:** The codebase already contains hostname-normalization logic in `connectableHostname()`. The new solution follows a similar pattern but is scoped specifically to user-facing function URLs. Regression tests were placed alongside the existing Functions Emulator utility tests.
 
 
-**Plan:** [Step-by-step implementation plan]
+**Plan:** 
 1. Add `formatFunctionUrlForDisplay()` to `functionsEmulatorUtils.ts`.
 2. Convert `0.0.0.0` and `127.0.0.1` to `localhost`.
 3. Preserve URLs containing non-loopback hostnames.
@@ -531,7 +531,7 @@ Using UMPIRE framework (adapted):
 - [Added the formatting helper and regression tests](https://github.com/aanyabharti101/firebase-tools/commit/bf1a514c6)
 - [Applied the formatted URL to the initialization message](https://github.com/aanyabharti101/firebase-tools/commit/523b5b140)
 
-**Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
+**Review:** 
 
 - [x] Ran Prettier on the modified files.
 - [x] Ran `git diff --check` to detect whitespace problems.
@@ -541,7 +541,7 @@ Using UMPIRE framework (adapted):
 - [ ] Run the remaining broader repository checks.
 
 
-**Evaluate:** [How will you verify it works?]
+**Evaluate:** 
 
 - [x] Run the three targeted regression tests.
 - [x] Build the complete local Firebase Tools CLI.
