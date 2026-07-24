@@ -407,7 +407,7 @@ The issue has clear maintainer guidance pointing to the relevant source file, ma
 
 When the Firebase Functions Emulator starts, it logs the URL for each HTTP function using 0.0.0.0 as the host (for example, http://0.0.0.0:5001/...). 
 While 0.0.0.0 is the correct address for binding the emulator to all network interfaces, it is not the most useful address for developers to open in a browser. 
-The issue requests that the displayed URL use localhost instead, making it easier to click or copy the link during local development.
+The issue requests that the displayed URL use 'localhost' instead, making it easier to click or copy the link during local development. 
 
 
 ### Expected Behavior
@@ -424,10 +424,11 @@ loopback address `127.0.0.1`. Local reproduction is being performed to verify wh
 
 ### Affected Components
 
-- `src/emulator/functionsEmulator.ts` — constructs the HTTP function URL and prints the function initialization message.
-- `src/emulator/registry.ts` — creates connectable URLs using the emulator’s registered host and port.
-- `src/utils.ts` — contains `connectableHostname()`, which converts wildcard addresses such as `0.0.0.0` to loopback addresses.
-- `scripts/emulator-tests/functionsEmulator.spec.ts` — contains Functions Emulator tests and may be used for regression coverage.
+- `src/emulator/functionsEmulator.ts` — prints the HTTP function initialization message.
+- `src/emulator/functionsEmulatorUtils.ts` — contains the new display-formatting helper.
+- `src/emulator/functionsEmulatorUtils.spec.ts` — contains regression tests for the helper.
+- `src/emulator/registry.ts` — constructs connectable emulator URLs using the registered host and port.
+- `src/utils.ts` — contains `connectableHostname()`, which converts wildcard addresses to connectable loopback addresses.
 
 
 ---
@@ -451,46 +452,104 @@ dependency configuration. I restored that unrelated generated change to keep my 
 
 ### Steps to Reproduce
 Reproduction in progress. The final numbered steps and observed output will be added after running the local Functions Emulator twice.
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+1. Build the local Firebase Tools source:
+
+   ```bash
+   npm run build
+   ```
+
+2. Install the dependencies for the existing Functions Emulator test fixture:
+
+   ```bash
+   cd scripts/triggers-end-to-end-tests/v1
+   npm ci
+   cd ../../..
+   ```
+
+3. Start the Functions Emulator using the locally built CLI:
+
+   ```bash
+   node lib/bin/firebase.js emulators:start \
+     --config scripts/triggers-end-to-end-tests/firebase.json \
+     --only functions:v1 \
+     --project demo-test
+   ```
+
+4. Examine the messages printed when the HTTP functions initialize.
+
+5. Compare the displayed hostname with the requested `localhost` behavior.
 
 ### Reproduction Evidence
 
 - **Commit showing reproduction:** [fix-issue-3728](https://github.com/aanyabharti101/firebase-tools/tree/fix-issue-3728)  
-- **Screenshots/logs:** [If applicable] To be added after reproduction.  
-- **My findings:** [What you discovered during reproduction] To be finalized after verifying the URL displayed by Firebase Tools 15.24.0.
+- **Screenshots/logs:** [If applicable] 
+#### Before Fix Reprodcution: Function Initialization URL Displays `127.0.0.1`
+<img width="1159" height="414" alt="Screenshot 2026-07-22 at 10 20 00 PM" src="https://github.com/user-attachments/assets/4d2dde14-3732-4c6c-b526-7492f3b83e21" />
+*Before the fix, the HTTP function initialization message displayed `http://127.0.0.1:5001/...` instead of the requested `http://localhost:5001/...`. The emulator’s host/port table separately displayed `0.0.0.0:5001`, confirming that the emulator retained its wildcard bind address.*
 
+
+- **My findings:** [What you discovered during reproduction] The emulator correctly used `0.0.0.0` as its bind address, but the user-facing function initialization URL was converted to `127.0.0.1`. Therefore, the issue still existed in a modified form: the displayed URL used a numeric loopback address instead of the requested `localhost`.
+The `127.0.0.1` addresses displayed in the Emulator UI and host/port summary are separate from the function-initialization messages and are outside the scope of issue #3728.
 ---
 
 ## Solution Approach
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
+The networking behavior itself was not the root cause. Firebase still needs to retain its configured bind or connectable address internally. 
+The problem occurred in the presentation layer because `functionsEmulator.ts` inserted the internally constructed URL directly into the user-facing `function initialized (...)` message.
+Changing the emulator’s internal hostname could affect networking behavior. Therefore, the safer approach was to create display-specific formatting that changes only the URL shown in the terminal.
+
 
 ### Proposed Solution
 
-[High-level description of your fix approach]
+Add a display-only helper that parses a function URL and replaces the IPv4 wildcard or loopback hostname with `localhost`. 
+Apply the helper only when constructing the function-initialization message and preserve non-loopback hostnames without modification.
 
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
-**Understand:** [Restate the problem]
+**Understand:** The Functions Emulator displays a numeric local hostname in its initialization message, while developers should see a clearer `localhost` URL. Internal networking behavior must remain unchanged.
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+**Match:** The codebase already contains hostname-normalization logic in `connectableHostname()`. The new solution follows a similar pattern but is scoped specifically to user-facing function URLs. Regression tests were placed alongside the existing Functions Emulator utility tests.
+
 
 **Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+1. Add `formatFunctionUrlForDisplay()` to `functionsEmulatorUtils.ts`.
+2. Convert `0.0.0.0` and `127.0.0.1` to `localhost`.
+3. Preserve URLs containing non-loopback hostnames.
+4. Add regression tests for all three cases.
+5. Apply the helper to the initialization message in `functionsEmulator.ts`.
+6. Build the local CLI and launch the Functions Emulator.
+7. Confirm that the actual initialization messages display `localhost`.
+8. Run broader related tests and repository checks.
 
-**Implement:** [Link to your branch/commits as you work]
+**Implement:** 
+- [Added the formatting helper and regression tests](https://github.com/aanyabharti101/firebase-tools/commit/bf1a514c6)
+- [Applied the formatted URL to the initialization message](https://github.com/aanyabharti101/firebase-tools/commit/523b5b140)
 
 **Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
 
+- [x] Ran Prettier on the modified files.
+- [x] Ran `git diff --check` to detect whitespace problems.
+- [x] Restored the unrelated `npm-shrinkwrap.json` modification.
+- [x] Separated the implementation into two focused commits.
+- [x] Confirmed that only three issue-related files were modified.
+- [ ] Run the remaining broader repository checks.
+
+
 **Evaluate:** [How will you verify it works?]
+
+- [x] Run the three targeted regression tests.
+- [x] Build the complete local Firebase Tools CLI.
+- [x] Launch the Functions Emulator using an existing test fixture.
+- [x] Confirm that initialization messages display `localhost`.
+- [ ] Run the broader relevant Functions Emulator tests.
+- [ ] Run the required lint and style checks.
+- [ ] Record the original pre-fix behavior twice.
+
+
 
 ---
 
@@ -498,37 +557,97 @@ Using UMPIRE framework (adapted):
 
 ### Unit Tests
 
-- [ ] Test case 1: [Description]
-- [ ] Test case 2: [Description]
-- [ ] Test case 3: [Description]
+The following regression tests were added to `functionsEmulatorUtils.spec.ts`:
+
+- [x] Converts the IPv4 wildcard address `0.0.0.0` to `localhost`.
+- [x] Converts the IPv4 loopback address `127.0.0.1` to `localhost`.
+- [x] Preserves a non-loopback host such as `192.168.1.10`.
+
+Targeted test command:
+
+```bash
+npm run mocha -- --grep "formatFunctionUrlForDisplay"
+```
+
+Result:
+
+```text
+3 passing
+```
 
 ### Integration Tests
 
-- [ ] Integration scenario 1
-- [ ] Integration scenario 2
+- [x] Successfully built the local Firebase Tools CLI with `npm run build`.
+- [x] Started the Functions Emulator using the existing trigger end-to-end test fixture.
+- [x] Confirmed that all emulators reached the ready state.
+- [x] Confirmed that the formatting change appeared in the actual initialization output.
+- [ ] Run the broader relevant Functions Emulator test suite.
+- [ ] Confirm that existing related tests pass without regressions.
 
 ### Manual Testing
 
-[What you tested manually and results]
+I launched the Functions Emulator using the locally built Firebase Tools CLI and examined the terminal output produced when its HTTP functions initialized.
+
+The initialization messages displayed URLs beginning with:
+
+```text
+http://localhost:9002/demo-test/us-central1/...
+```
+
+This confirmed that the fix works in the running emulator and displays `localhost` as requested.
+
+The Emulator UI and host/port summary continued to display `127.0.0.1`. Those values are unrelated to the function-initialization message changed by this contribution and are outside the scope of the issue.
+
+- [ ] Run the broader relevant Functions Emulator test suite.
+- [ ] Run the repository’s required lint and style checks.
+- [ ] Confirm that existing related tests have no regressions.
+- [ ] Record the original pre-fix behavior twice for complete Phase II evidence.
+
 
 ---
 
 ## Implementation Notes
 
-### Week [X] Progress
+### Week [7] Progress
 
-[What you built this week, challenges faced, decisions made]
+I prepared the Firebase Tools development environment by cloning my fork, configuring the upstream repository, creating the `fix-issue-3728` branch, and installing the project dependencies.
 
-### Week [Y] Progress
+I investigated the source files involved in constructing and displaying Functions Emulator URLs. I discovered that the original `0.0.0.0` behavior had been partially addressed by converting the hostname to `127.0.0.1`, but the requested `localhost` display behavior was still missing.
 
-[Continue documenting as you work]
+I also resolved a Node.js version mismatch by installing nvm and switching from Node.js 25.2.1 to Node.js 22.23.1. After installation modified `npm-shrinkwrap.json`, I restored the unrelated generated change to keep the branch clean.
+
+
+
+### Week [8] Progress
+
+This week, I traced how Firebase constructs and displays HTTP function URLs and determined that the issue should be fixed only in the user-facing initialization message.
+
+I added `formatFunctionUrlForDisplay()`, which changes the local numeric hostnames `0.0.0.0` and `127.0.0.1` to `localhost` while preserving non-loopback hosts. I also added three focused regression tests and connected the helper to the `function initialized (...)` message.
+
+The targeted tests completed with `3 passing`. I then built the local CLI and launched the Functions Emulator using an existing test fixture. The resulting initialization messages displayed `http://localhost:9002/...`, confirming that the implementation fixes the requested behavior in the running emulator.
+
 
 ### Code Changes
-
 - **Files modified:** [List]
-- **Key commits:** [Links to important commits]
-- **Approach decisions:** [Why you chose certain approaches]
+- `src/emulator/functionsEmulatorUtils.ts`
+  - Added `formatFunctionUrlForDisplay()`.
 
+- `src/emulator/functionsEmulatorUtils.spec.ts`
+  - Added three regression tests covering wildcard, loopback, and non-loopback hosts.
+
+- `src/emulator/functionsEmulator.ts`
+  - Applied the helper to the user-facing function-initialization message.
+  
+- **Key commits:** [Links to important commits]
+- [`bf1a514c6` — Format local function URLs for display](https://github.com/aanyabharti101/firebase-tools/commit/bf1a514c6)
+- [`523b5b140` — Display the formatted URL during initialization](https://github.com/aanyabharti101/firebase-tools/commit/523b5b140)
+
+- **Approach decisions:** [Why you chose certain approaches]
+I used a separate display-formatting helper instead of changing the emulator’s internal hostname. This keeps the networking behavior intact and limits the change to the terminal output requested by the issue.
+
+I tested both `0.0.0.0` and `127.0.0.1` because the original issue referenced the wildcard address, while the current codebase can first convert that address to the numeric loopback address.
+
+I also included a non-loopback test case to confirm that the helper does not incorrectly replace valid network hostnames.
 ---
 
 ## Pull Request
