@@ -630,7 +630,7 @@ The targeted tests completed with `3 passing`. I then built the local CLI and la
 
 
 ### Code Changes
-- **Files modified:** [List]
+- **Files modified:** 
 - `src/emulator/functionsEmulatorUtils.ts`
   - Added `formatFunctionUrlForDisplay()`.
 
@@ -640,11 +640,11 @@ The targeted tests completed with `3 passing`. I then built the local CLI and la
 - `src/emulator/functionsEmulator.ts`
   - Applied the helper to the user-facing function-initialization message.
   
-- **Key commits:** [Links to important commits]
+- **Key commits:** 
 - [`bf1a514c6` — Format local function URLs for display](https://github.com/aanyabharti101/firebase-tools/commit/bf1a514c6)
 - [`523b5b140` — Display the formatted URL during initialization](https://github.com/aanyabharti101/firebase-tools/commit/523b5b140)
 
-- **Approach decisions:** [Why you chose certain approaches]
+- **Approach decisions:** 
 I used a separate display-formatting helper instead of changing the emulator’s internal hostname. This keeps the networking behavior intact and limits the change to the terminal output requested by the issue.
 
 I tested both `0.0.0.0` and `127.0.0.1` because the original issue referenced the wildcard address, while the current codebase can first convert that address to the numeric loopback address.
