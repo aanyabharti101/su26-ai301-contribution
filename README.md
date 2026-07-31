@@ -12,7 +12,7 @@ This repository documents my open-source contributions for CodePath AI301.
 | # | Project | Issue | Status |
 |---|---------|-------|--------| 
 | 1 | Swift Build | LinkFileList generation needs to use quoting (#13)| ✅ Phase IV Complete - Iterating|
-| 2 | Firebase Tools | Display proper URLs when initializing (#3728) | 🟡 Phase III In Progress |
+| 2 | Firebase Tools | Display proper URLs when initializing (#3728) | 🟡 Phase III Complete |
 
 ---
 
