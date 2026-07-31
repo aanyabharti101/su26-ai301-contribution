@@ -528,8 +528,8 @@ Using UMPIRE framework (adapted):
 8. Run broader related tests and repository checks.
 
 **Implement:** 
-- [Added the formatting helper and regression tests](https://github.com/aanyabharti101/firebase-tools/commit/bf1a514c6)
-- [Applied the formatted URL to the initialization message](https://github.com/aanyabharti101/firebase-tools/commit/523b5b140)
+- [Added the formatting helper and regression tests](https://github.com/aanyabharti101/firebase-tools/commit/c6a7794)
+- [Applied the formatted URL to the initialization message](https://github.com/aanyabharti101/firebase-tools/commit/ce3abac)
 
 **Review:** 
 
@@ -547,8 +547,8 @@ Using UMPIRE framework (adapted):
 - [x] Build the complete local Firebase Tools CLI.
 - [x] Launch the Functions Emulator using an existing test fixture.
 - [x] Confirm that initialization messages display `localhost`.
+- [x] Run the required lint and style checks.
 - [ ] Run the broader relevant Functions Emulator tests.
-- [ ] Run the required lint and style checks.
 - [ ] Record the original pre-fix behavior twice.
 
 
@@ -577,6 +577,11 @@ Result:
 3 passing
 ```
 
+### Lint and Style Checks
+
+- [x] Ran `npm run lint:changed-files`.
+- [x] Completed with `0 errors`. The command reported repository warnings unrelated to this contribution.
+
 ### Integration Tests
 
 - [x] Successfully built the local Firebase Tools CLI with `npm run build`.
@@ -600,8 +605,8 @@ This confirmed that the fix works in the running emulator and displays `localhos
 
 The Emulator UI and host/port summary continued to display `127.0.0.1`. Those values are unrelated to the function-initialization message changed by this contribution and are outside the scope of the issue.
 
+- [x] Run the repository’s required lint and style checks.
 - [ ] Run the broader relevant Functions Emulator test suite.
-- [ ] Run the repository’s required lint and style checks.
 - [ ] Confirm that existing related tests have no regressions.
 - [ ] Record the original pre-fix behavior twice for complete Phase II evidence.
 
@@ -641,8 +646,8 @@ The targeted tests completed with `3 passing`. I then built the local CLI and la
   - Applied the helper to the user-facing function-initialization message.
   
 - **Key commits:** 
-- [`bf1a514c6` — Format local function URLs for display](https://github.com/aanyabharti101/firebase-tools/commit/bf1a514c6)
-- [`523b5b140` — Display the formatted URL during initialization](https://github.com/aanyabharti101/firebase-tools/commit/523b5b140)
+- [`c6a779431` — Format local function URLs for display](https://github.com/aanyabharti101/firebase-tools/commit/c6a779431)
+- [`ce3abacab` — Display the formatted URL during initialization](https://github.com/aanyabharti101/firebase-tools/commit/ce3abacab)
 
 - **Approach decisions:** 
 I used a separate display-formatting helper instead of changing the emulator’s internal hostname. This keeps the networking behavior intact and limits the change to the terminal output requested by the issue.
