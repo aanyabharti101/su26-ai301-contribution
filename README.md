@@ -378,6 +378,11 @@ I would also create a small investigation document while debugging so that I can
 
 ---
 
+
+
+
+
+
 <details open>
 <summary><h1>🚀 Contribution #2 – Firebase Tools</h1></summary>
 
@@ -388,7 +393,7 @@ I would also create a small investigation document while debugging so that I can
 **Contribution Number:** 2  
 **Student:** Aanya Bharti  
 **Issue:** https://github.com/firebase/firebase-tools/issues/3728  
-**Status:** Phase III In Progress  
+**Status:** Phase III Complete  
 
 ---
 
@@ -484,7 +489,7 @@ Local reproduction confirmed that the HTTP function initialization message displ
 
 - **Commit showing reproduction:** [fix-issue-3728](https://github.com/aanyabharti101/firebase-tools/tree/fix-issue-3728)  
 - **Screenshots/logs:** 
-#### Before Fix Reprodcution: Function Initialization URL Displays `127.0.0.1`
+#### Before Fix Reproduction: Function Initialization URL Displays `127.0.0.1`
 <img width="1159" height="414" alt="Screenshot 2026-07-22 at 10 20 00 PM" src="https://github.com/user-attachments/assets/4d2dde14-3732-4c6c-b526-7492f3b83e21" />
 *Before the fix, the HTTP function initialization message displayed `http://127.0.0.1:5001/...` instead of `http://localhost:5001/...`. The host/port table separately displayed `0.0.0.0:5001`, confirming that the emulator retained its wildcard bind address.*
 
@@ -534,23 +539,24 @@ Using UMPIRE framework (adapted):
 **Review:** 
 
 - [x] Ran Prettier on the modified files.
-- [x] Ran `git diff --check` to detect whitespace problems.
+- [x] Ran `git diff --check`; no whitespace problems were reported.
 - [x] Restored the unrelated `npm-shrinkwrap.json` modification.
 - [x] Separated the implementation into two focused commits.
+- [x] Rebased the branch onto the latest `upstream/main`.
 - [x] Confirmed that only three issue-related files were modified.
-- [ ] Run the remaining broader repository checks.
-
+- [x] Confirmed that the working tree was clean.
+- [x] Confirmed that the branch contained only the two contribution commits.
 
 **Evaluate:** 
 
-- [x] Run the three targeted regression tests.
-- [x] Build the complete local Firebase Tools CLI.
-- [x] Launch the Functions Emulator using an existing test fixture.
-- [x] Confirm that initialization messages display `localhost`.
-- [x] Run the required lint and style checks.
-- [ ] Run the broader relevant Functions Emulator tests.
-- [ ] Record the original pre-fix behavior twice.
-
+- [x] Ran the three targeted regression tests.
+- [x] Ran the complete related utility test file.
+- [x] Built the complete local Firebase Tools CLI.
+- [x] Launched the Functions Emulator using an existing test fixture.
+- [x] Confirmed that initialization messages display `localhost`.
+- [x] Ran the required lint and style checks.
+- [x] Confirmed that existing related tests pass without regressions.
+- [x] Documented the original pre-fix behavior.
 
 
 ---
@@ -564,6 +570,8 @@ The following regression tests were added to `functionsEmulatorUtils.spec.ts`:
 - [x] Converts the IPv4 wildcard address `0.0.0.0` to `localhost`.
 - [x] Converts the IPv4 loopback address `127.0.0.1` to `localhost`.
 - [x] Preserves a non-loopback host such as `192.168.1.10`.
+- [x] Ran the complete `functionsEmulatorUtils.spec.ts` test file.
+- [x] Confirmed that all 28 related utility tests passed with exit code `0`.
 
 Targeted test command:
 
@@ -588,8 +596,9 @@ Result:
 - [x] Started the Functions Emulator using the existing trigger end-to-end test fixture.
 - [x] Confirmed that all emulators reached the ready state.
 - [x] Confirmed that the formatting change appeared in the actual initialization output.
-- [ ] Run the broader relevant Functions Emulator test suite.
-- [ ] Confirm that existing related tests pass without regressions.
+
+
+
 
 ### Manual Testing
 
@@ -605,13 +614,10 @@ This confirmed that the fix works in the running emulator and displays `localhos
 
 The Emulator UI and host/port summary continued to display `127.0.0.1`. Those values are unrelated to the function-initialization message changed by this contribution and are outside the scope of the issue.
 
-- [x] Run the repository’s required lint and style checks.
-- [ ] Run the broader relevant Functions Emulator test suite.
-- [ ] Confirm that existing related tests have no regressions.
-- [ ] Record the original pre-fix behavior twice for complete Phase II evidence.
-
 
 ---
+
+
 
 ## Implementation Notes
 
@@ -632,6 +638,20 @@ This week, I traced how Firebase constructs and displays HTTP function URLs and 
 I added `formatFunctionUrlForDisplay()`, which changes the local numeric hostnames `0.0.0.0` and `127.0.0.1` to `localhost` while preserving non-loopback hosts. I also added three focused regression tests and connected the helper to the `function initialized (...)` message.
 
 The targeted tests completed with `3 passing`. I then built the local CLI and launched the Functions Emulator using an existing test fixture. The resulting initialization messages displayed `http://localhost:9002/...`, confirming that the implementation fixes the requested behavior in the running emulator.
+
+
+### Week [9] Progress
+
+This week, I synchronized my contribution branch with the latest upstream Firebase Tools repository by rebasing it onto `upstream/main` and updating my fork with `--force-with-lease`.
+
+I then repeated the project validation after the rebase. The three focused regression tests passed, and the complete related utility test file completed with `28 passing` and exit code `0`. The changed-file lint check completed with `0 errors`, and the full Firebase Tools build completed twice with exit code `0`.
+
+The complete Mocha suite reported `4,785 passing` and `10 pending` with no test failures before the local process was terminated with exit code `137`. I documented this limitation and relied on the separately completed related test file for a clean local result.
+
+Finally, I launched the Functions Emulator again and confirmed that its HTTP function initialization messages displayed `http://localhost:9002/...`. A final Git review confirmed a clean working tree, two focused commits, and only the three intended files changed.
+
+
+
 
 
 ### Code Changes
@@ -678,9 +698,13 @@ I also included a non-loopback test case to confirm that the helper does not inc
 
 [What you learned technically]
 
+
 ### Challenges Overcome
 
-[What was hard and how you solved it]
+- I switched to Node.js 22.23.1 to use a stable version compatible with the repository.
+- Installing dependencies modified `npm-shrinkwrap.json`, so I restored the unrelated change to keep my contribution focused.
+- The complete test suite finished without reporting test failures, but macOS terminated the process afterward because of a local resource limitation. I therefore ran the directly related utility test file separately and confirmed that it passed with exit code `0`.
+  
 
 ### What I'd Do Differently Next Time
 
@@ -690,9 +714,9 @@ I also included a non-loopback test case to confirm that the helper does not inc
 
 ## Resources Used
 
-- [Link to helpful documentation]
-- [Tutorial or Stack Overflow post that helped]
-- [GitHub issues or discussions that helped]
+- [Firebase Tools issue #3728](https://github.com/firebase/firebase-tools/issues/3728)
+- [Firebase Tools contributing guide](https://github.com/firebase/firebase-tools/blob/main/CONTRIBUTING.md)
+- [Firebase Tools source repository](https://github.com/firebase/firebase-tools)
 
 
 
