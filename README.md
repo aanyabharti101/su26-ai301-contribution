@@ -12,7 +12,7 @@ This repository documents my open-source contributions for CodePath AI301.
 | # | Project | Issue | Status |
 |---|---------|-------|--------| 
 | 1 | Swift Build | LinkFileList generation needs to use quoting (#13)| ✅ Phase IV Complete - Iterating|
-| 2 | Firebase Tools | Display proper URLs when initializing (#3728) | 🟡 Phase III Complete |
+| 2 | Firebase Tools | Display proper URLs when initializing (#3728) |  ✅ Phase IV Complete - Awaiting Review|
 
 ---
 
@@ -393,7 +393,7 @@ I would also create a small investigation document while debugging so that I can
 **Contribution Number:** 2  
 **Student:** Aanya Bharti  
 **Issue:** https://github.com/firebase/firebase-tools/issues/3728  
-**Status:** Phase III Complete  
+**Status:** Phase IV Complete  
 
 ---
 
@@ -447,7 +447,8 @@ My initial environment used Node.js 25.2.1, which was not the stable version I w
 I installed `nvm` 0.40.6 and switched to Node.js 22.23.1 with npm 10.9.8. 
 I then installed the project’s 1,829 packages, successfully built the TypeScript codebase and MCP applications, 
 and used `npm link` to connect the `firebase` command to my local source checkout. 
-The linked CLI reports Firebase Tools version 15.24.0.
+After the final rebase, I successfully built and validated Firebase Tools version 15.26.0.
+
 
 The dependency installation modified `npm-shrinkwrap.json`, even though I had not intentionally changed the 
 dependency configuration. I restored that unrelated generated change to keep my working branch clean.
@@ -533,8 +534,8 @@ Using UMPIRE framework (adapted):
 8. Run broader related tests and repository checks.
 
 **Implement:** 
-- [Added the formatting helper and regression tests](https://github.com/aanyabharti101/firebase-tools/commit/c6a7794)
-- [Applied the formatted URL to the initialization message](https://github.com/aanyabharti101/firebase-tools/commit/ce3abac)
+- [`aff6f6d56`](https://github.com/aanyabharti101/firebase-tools/commit/aff6f6d56) — Added the formatting helper and regression tests.
+- [`70f735b1f`](https://github.com/aanyabharti101/firebase-tools/commit/70f735b1f) — Applied the formatted URL to the initialization message.
 
 **Review:** 
 
@@ -651,6 +652,13 @@ The complete Mocha suite reported `4,785 passing` and `10 pending` with no test 
 Finally, I launched the Functions Emulator again and confirmed that its HTTP function initialization messages displayed `http://localhost:9002/...`. A final Git review confirmed a clean working tree, two focused commits, and only the three intended files changed.
 
 
+### Week [10] Progress
+
+This week, I completed Phase IV by performing a final synchronization and review of my contribution branch. After rebasing onto the newest upstream code, I reran the related tests, lint check, and project build, which all completed successfully. I then safely updated my fork using --force-with-lease.
+
+I opened Firebase Tools Pull Request #10904. The pull request links issue #3728, explains the implementation and before-and-after behavior, and documents the testing performed. I also updated my contribution README with the new commit hashes, pull-request information, technical skills gained, challenges overcome, and final reflection.
+
+Phase IV is now complete, and the pull request is open and awaiting maintainer review. The remaining CI and Contributor License Agreement checks were pending at the time of this update.
 
 
 
@@ -666,8 +674,8 @@ Finally, I launched the Functions Emulator again and confirmed that its HTTP fun
   - Applied the helper to the user-facing function-initialization message.
   
 - **Key commits:** 
-- [`c6a779431` — Format local function URLs for display](https://github.com/aanyabharti101/firebase-tools/commit/c6a779431)
-- [`ce3abacab` — Display the formatted URL during initialization](https://github.com/aanyabharti101/firebase-tools/commit/ce3abacab)
+- [`aff6f6d56`](https://github.com/aanyabharti101/firebase-tools/commit/aff6f6d56) — Added the formatting helper and regression tests.
+- [`70f735b1f`](https://github.com/aanyabharti101/firebase-tools/commit/70f735b1f) — Applied the formatted URL to the initialization message.
 
 - **Approach decisions:** 
 I used a separate display-formatting helper instead of changing the emulator’s internal hostname. This keeps the networking behavior intact and limits the change to the terminal output requested by the issue.
@@ -680,15 +688,15 @@ I also included a non-loopback test case to confirm that the helper does not inc
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when submitted]
+**PR Link:** [Firebase Tools Pull Request #10904](https://github.com/firebase/firebase-tools/pull/10904)
 
-**PR Description:** [Draft or final PR description - much of the content above can be adapted]
+**PR Description:** This pull request updates function initialization messages so local URLs using 0.0.0.0 or 127.0.0.1 display as browser-friendly localhost URLs. 
+The change affects only the displayed URL and preserves the emulator’s internal networking behavior and non-loopback hosts.
 
 **Maintainer Feedback:**
-- [Date]: [Summary of feedback received]
-- [Date]: [How you addressed it]
+- No maintainer feedback has been received yet. The pull request is currently awaiting review.
 
-**Status:** [Awaiting review / Iterating / Approved / Merged]
+**Status:** Awaiting Review
 
 ---
 
@@ -696,7 +704,8 @@ I also included a non-loopback test case to confirm that the helper does not inc
 
 ### Technical Skills Gained
 
-[What you learned technically]
+Through this contribution, I gained experience navigating a large TypeScript codebase, tracing how URLs are generated and displayed, and implementing a focused utility function without changing internal networking
+behavior. I also improved my skills in regression testing, linting, building a large CLI project, rebasing with upstream changes, maintaining clean commits, and preparing a pull request that follows project guidelines.
 
 
 ### Challenges Overcome
@@ -708,7 +717,7 @@ I also included a non-loopback test case to confirm that the helper does not inc
 
 ### What I'd Do Differently Next Time
 
-[Reflection on your process]
+Next time, I would confirm the recommended Node.js version before installing dependencies and sync my branch with upstream more frequently. This would reduce environment issues and minimize the amount of final rebasing and repeated validation required before opening the pull request.
 
 ---
 
@@ -717,7 +726,7 @@ I also included a non-loopback test case to confirm that the helper does not inc
 - [Firebase Tools issue #3728](https://github.com/firebase/firebase-tools/issues/3728)
 - [Firebase Tools contributing guide](https://github.com/firebase/firebase-tools/blob/main/CONTRIBUTING.md)
 - [Firebase Tools source repository](https://github.com/firebase/firebase-tools)
-
+- [Firebase Tools pull request #10904](https://github.com/firebase/firebase-tools/pull/10904)
 
 
 </details>
