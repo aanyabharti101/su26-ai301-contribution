@@ -726,7 +726,6 @@ Next time, I would confirm the recommended Node.js version before installing dep
 - [Firebase Tools issue #3728](https://github.com/firebase/firebase-tools/issues/3728)
 - [Firebase Tools contributing guide](https://github.com/firebase/firebase-tools/blob/main/CONTRIBUTING.md)
 - [Firebase Tools source repository](https://github.com/firebase/firebase-tools)
-- [Firebase Tools pull request #10904](https://github.com/firebase/firebase-tools/pull/10904)
 
 
 </details>
